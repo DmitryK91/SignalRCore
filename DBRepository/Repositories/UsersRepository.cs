@@ -25,7 +25,7 @@ namespace DBRepository.Repositories
 
                     return Utils.GetResult(result > 0);
                 }
-                catch (Exception ex) { return Utils.GetResult(ex: ex); }
+                catch(Exception ex){ return Utils.GetResult(ex: ex); }
             }
         }
 
@@ -40,13 +40,12 @@ namespace DBRepository.Repositories
             }
         }
 
-        public async Task<bool> IsCorrectAsync(User user)
+        public async Task<User> GetUserAsync(string userName, string userAgent)
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                var result = await context.Users.Where(
-                    u => u.Name == user.Name && u.Agent == user.Agent).ToListAsync();
-                return result.Count == 1;
+                return await context.Users.Where(
+                    u => u.Name == userName && u.Agent == userAgent).SingleOrDefaultAsync();
             }
         }
     }

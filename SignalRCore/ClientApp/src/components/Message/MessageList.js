@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import {
   receiveMessage,
   requestMessages
-} from "../store/actions/messageActions";
+} from "../../store/actions/messageActions";
 import Message from "./Message";
 
 class MessageList extends Component {
@@ -47,16 +47,18 @@ class MessageList extends Component {
     }
     return (
       <div className="message-list">
-        {this.props.messages.map((message, i) => {
-          return (
-            <Message
-              key={i}
-              userName={message.userName}
-              contents={message.contents}
-              postedAt={message.postedAt}
-            />
-          );
-        })}
+        {
+          this.props.messages.map((message, i) => {
+            return (
+              <Message
+                key={i}
+                userName={message.userName}
+                contents={message.content}
+                postedAt={message.postedAt}
+              />
+            );
+          })
+        }
         <div ref={el => { this.el = el; }} />
       </div>
     );

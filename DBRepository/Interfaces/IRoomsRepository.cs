@@ -5,10 +5,10 @@ using Models;
 
 namespace DBRepository.Interfaces
 {
-    public interface IGroupsRepository
+    public interface IRoomsRepository
     {
-        Task<Result> AddAsync(Group group);
-        Task<List<Group>> GetGroupsAsync();
+        Task<Result> AddAsync(Room room);
+        Task<List<Room>> GetRoomsAsync();
         Task<String> GetNameByIDAsync(Guid ID);
     }
 }

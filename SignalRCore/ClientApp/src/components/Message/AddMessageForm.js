@@ -24,7 +24,7 @@ class AddMessageForm extends Component {
       .invoke(
         "SendMessage",
         this.props.roomId,
-        this.props.userName,
+        this.props.user.id,
         this.state.newMessage
       )
       .catch(err => console.error(err.toString()));

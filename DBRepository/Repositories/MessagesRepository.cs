@@ -14,27 +14,35 @@ namespace DBRepository.Repositories
             base(connectionString, contextFactory)
         { }
 
-        public async Task<List<Message>> GetMessages(Guid GroupID)
+        public async Task<List<ViewMessage>> GetMessages(Guid GroupID)
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {
-                return await context.Messages.Where(g => g.GroupID == GroupID).ToListAsync();
+                return await context.Messages
+                                        .Where(g => g.GroupID == GroupID)
+                                        .Include(u => u.User)
+                                        .Select(m => new ViewMessage{
+                                            PostedAt = m.PostedAt,
+                                            Content = m.Content,
+                                            UserName = m.User.Name
+                                        })
+                                        .ToListAsync();
             }
         }
 
         public async Task<Result> AddMessageAsync(Message message)
         {
-            using (var context = ContextFactory.CreateDbContext(ConnectionString))
+            try
             {
-                try
+                using(var context = ContextFactory.CreateDbContext(ConnectionString))
                 {
                     await context.Messages.AddAsync(message);
                     var result = await context.SaveChangesAsync();
 
                     return Utils.GetResult(result > 0);
                 }
-                catch (Exception ex) { return Utils.GetResult(ex: ex); }
             }
+            catch(Exception ex){ return Utils.GetResult(ex: ex); }
         }
     }
 }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { requestRooms, receiveRoom, setRoom } from '../store/actions/roomActions';
+import { requestRooms, receiveRoom, setRoom } from '../../store/actions/roomActions';
 
 class ChatRoomList extends Component {
   componentDidMount() {
@@ -24,7 +24,7 @@ class ChatRoomList extends Component {
         <ul>
           <h4>Rooms Available</h4>
             {this.props.rooms.map(room => {
-              
+
               return (
                 <li key={room.id} className={'room'}>
                   <a

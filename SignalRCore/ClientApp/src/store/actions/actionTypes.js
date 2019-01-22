@@ -15,3 +15,9 @@ export const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
 
 // User Info
 export const SET_USERNAME = 'SET_USERNAME';
+
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const LOGIN_ERROR = 'LOGIN_ERROR'
+export const SHOW_LOGIN_FORM = 'SHOW_LOGIN_FORM'
+export const INPUT_LOGIN = 'INPUT_LOGIN'
+export const LOGOUT = 'LOGOUT'

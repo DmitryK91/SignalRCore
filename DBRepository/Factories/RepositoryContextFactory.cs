@@ -8,7 +8,7 @@ namespace DBRepository.Factories
         public RepositoryContext CreateDbContext(string connectionString)
         {
             var optionsBuilder = new DbContextOptionsBuilder<RepositoryContext>();
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlite(connectionString);
 
             return new RepositoryContext(optionsBuilder.Options);
         }

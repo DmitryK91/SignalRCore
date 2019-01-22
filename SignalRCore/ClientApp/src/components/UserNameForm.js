@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
-class UserNameForm extends Component {
+export default class UserNameForm extends Component {
   constructor() {
     super();
 
     this.state = {
-      newUserName: ''
+      newUserName: '',
+      userID: null
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -20,7 +21,7 @@ class UserNameForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props.onSetUserName(this.state.newUserName);
+    this.props.onLogin(this.state.newUserName);
   }
 
   render() {
@@ -39,5 +40,3 @@ class UserNameForm extends Component {
     )
   }
 }
-
-export default UserNameForm;

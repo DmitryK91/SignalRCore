@@ -8,7 +8,7 @@ namespace DBRepository.Interfaces
     public interface IUsersRepository
     {
         Task<Result> AddAsync(User user);
-        Task<Boolean> IsCorrectAsync(User user);
+        Task<User> GetUserAsync(string userName, string userAgent);
         Task<String> GetNameByIDAsync(Guid UserID);
     }
 }

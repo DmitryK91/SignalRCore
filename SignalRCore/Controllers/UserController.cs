@@ -7,33 +7,52 @@ using Models;
 
 namespace testChat.Controllers
 {
-    [Route("api/[controller]")]
+    [Route ("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUsersRepository _userRepository;
 
-        public UserController(IUsersRepository userRepository)
+        public UserController (IUsersRepository userRepository)
         {
             _userRepository = userRepository;
         }
 
-        [HttpGet("{ChatID}")]
-        public async Task<IActionResult> Get(Guid ChatID)
+        [HttpGet ("{userName}")]
+        public async Task<IActionResult> Get (string userName)
         {
-            if (ChatID == Guid.Empty)
+            if (userName == string.Empty)
             {
-                return NotFound();
+                return NotFound ();
             }
 
-            var messagesForRoom = await _messageRepository.GetMessages(ChatID);
+            var u = await _userRepository.GetUserAsync (
+                userName, Request.Headers["User-Agent"].ToString ());
 
-            return Ok(messagesForRoom);
+            return Ok (u);
         }
 
         [HttpPost]
-        public async void Post([FromBody] User user)
+        public async Task<IActionResult> Post ([FromBody] string userName)
         {
-            await _userRepository.AddAsync(user);
+            if (userName == string.Empty)
+            {
+                return NotFound ();
+            }
+
+            var u = await _userRepository.GetUserAsync (userName, Request.Headers["User-Agent"].ToString ());
+
+            if (u != null)
+                return Ok(u);
+
+            u = new User
+            {
+                Name = userName,
+                Agent = Request.Headers["User-Agent"].ToString ()
+            };
+
+            var result = await _userRepository.AddAsync (u);
+
+            return result.State ? (IActionResult)Ok(u) : BadRequest(result.Error);
         }
     }
 }

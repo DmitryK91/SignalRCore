@@ -5,12 +5,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models
 {
-    public class Group
+    public class Room
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid ID { get; set; }
+        [Required]
         public string Name { get; set; }
-
         public List<Message> Messages{ get; set; }
+
+        public Room(){
+            Messages = new List<Message>();
+        }
     }
 }

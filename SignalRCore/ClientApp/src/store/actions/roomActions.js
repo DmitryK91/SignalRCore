@@ -11,7 +11,7 @@ export const setRoom = (room) => ({ type: SET_ROOM, payload: room })
 
 export const requestRooms = () => (dispatch) => {
   dispatch({ type: REQUEST_ROOMS_PENDING })
-  getData('/api/chat')
+  getData('/api/room')
   .then(data => dispatch({ type: REQUEST_ROOMS_SUCCESS, payload: data }))
   .catch(error => dispatch({ type: REQUEST_ROOMS_FAILED, payload: error }))
 }

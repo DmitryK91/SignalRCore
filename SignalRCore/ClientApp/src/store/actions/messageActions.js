@@ -38,7 +38,7 @@ export function receiveMessage(
         id,
         roomId,
         postedAt,
-        contents: filteredMessage
+        content: filteredMessage
       },
       currentRoomId
     }

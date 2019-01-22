@@ -1,18 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { setUserName } from "./store/actions/userActions";
+import { Login } from "./store/actions/userActions";
 import { receiveMessage } from "./store/actions/messageActions";
 import { HubConnectionBuilder } from "@aspnet/signalr";
 
-import AddChatRoomForm from "./components/AddChatRoomForm";
-import AddMessageForm from "./components/AddMessageForm";
-import ChatRoomList from "./components/ChatRoomList";
-import MessageList from "./components/MessageList";
-import UserNameForm from "./components/UserNameForm";
-import NoRoomSelected from "./components/NoRoomSelected";
+import AddChatRoomForm from "./components/Chat/AddChatRoomForm";
+import AddMessageForm from "./components/Message/AddMessageForm";
+import ChatRoomList from "./components/Chat/ChatRoomList";
+import MessageList from "./components/Message/MessageList";
+import NoRoomSelected from "./components/Chat/NoRoomSelected";
 import Layout from "./components/Layout";
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Row, Col } from 'reactstrap';
 
 import "./App.css";
 
@@ -25,58 +23,47 @@ class App extends Component {
       .build();
   }
   componentDidMount() {
+    this.props.onLogin(window.prompt('Your name:', 'John'));
+
     this.connection
       .start({ withCredentials: false })
       .catch(err => console.error(err.toString()));
   }
 
   render() {
-    const { userName, onSetUserName, currentRoom } = this.props;
+    const { currentRoom, user } = this.props;
 
-    return (      
+    return (
       <Router>
           <Layout>
-
-          { userName ? (
             <div>
-              <Col xs="3">
-                <Row>
-                  <AddChatRoomForm connection={this.connection} />
-                </Row>
-                <Row>
-                  <ChatRoomList openRoom={() => 1} connection={this.connection} />
-                </Row>
-              </Col>
-
-              <Col>
-                <Row>
-                  { currentRoom ? (<MessageList roomId={currentRoom.id} connection={this.connection} />) : (<NoRoomSelected />) }                
-                </Row>
-
-                <Row>
-                  <AddMessageForm roomId={currentRoom.id} userName={userName} connection={this.connection} />
-                    {/* (currentRoom ? (<UserNameForm onSetUserName={onSetUserName} />) : <div> Pick a room.</div>) } */}
-                </Row>
-              </Col> 
-            </div> ) :
-            (<UserNameForm onSetUserName={onSetUserName} />)
-          }
-          </Layout>      
-      </Router>      
+              <AddChatRoomForm connection={this.connection} />
+              <ChatRoomList openRoom={() => 1} connection={this.connection} />
+              {
+                currentRoom ? (
+                <div>
+                  <MessageList roomId={currentRoom.id} connection={this.connection} />
+                  <AddMessageForm roomId={currentRoom.id} user={user} connection={this.connection} />
+                </div>
+                ) : (<NoRoomSelected />)
+              }
+            </div>
+          </Layout>
+      </Router>
     );
   }
-}
+};
 
 const mapStateToProps = state => {
   return {
-    userName: state.userInfo.userName,
+    user: state.userInfo.login,
     currentRoom: state.requestRooms.currentRoom
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSetUserName: name => dispatch(setUserName(name)),
+    onLogin: name => dispatch(Login(name)),
     onReceiveMessage: (
       user,
       message,

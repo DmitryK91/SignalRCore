@@ -9,31 +9,39 @@ namespace testChat.Hubs
     public class ChatHub : Hub
     {
         private readonly IMessagesRepository _messageManager;
-        private readonly IGroupsRepository _groupManager;
+        private readonly IRoomsRepository _groupManager;
+        private readonly IUsersRepository _usersManager;
         public int UsersOnline;
 
-        public ChatHub(IMessagesRepository messageManager, IGroupsRepository groupManager)
+        public ChatHub(IMessagesRepository messageManager, IRoomsRepository groupManager, IUsersRepository usersManager)
         {
             _messageManager = messageManager;
             _groupManager = groupManager;
+            _usersManager = usersManager;
         }
 
-        public async Task SendMessage(Guid roomId, string user, string message)
+        public async Task SendMessage(Guid roomId, Guid userId, string message)
         {
             Message m = new Message()
             {
-                GroupID = roomId,
-                Text = message,
-                UserName = user
+                ID = Guid.NewGuid(),
+                Content = message,
+                UserID = userId,
+                PostedAt = DateTime.Now,
+                GroupID = roomId
             };
 
-            await _messageManager.AddMessageAsync(m);
-            await Clients.All.SendAsync("ReceiveMessage", user, message, roomId, m.ID, m.UserName);
+            var res = await _messageManager.AddMessageAsync(m);
+            if(!res.State) return;
+
+            var userName = await _usersManager.GetNameByIDAsync(m.UserID);
+
+            await Clients.All.SendAsync("ReceiveMessage", userName, m.Content, m.GroupID, m.ID, m.PostedAt);
         }
 
         public async Task AddChatRoom(string roomName)
         {
-            Group chatRoom = new Group()
+            Room chatRoom = new Room()
             {
                 Name = roomName
             };

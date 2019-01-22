@@ -30,10 +30,10 @@ namespace testChat.Controllers
             return Ok(messagesForRoom);
         }
 
-        [HttpPost]
-        public async void Post([FromBody] Message message)
-        {
-            await _messageRepository.AddMessageAsync(message);
-        }
+        // [HttpPost]
+        // public async void Post([FromBody] Message message)
+        // {
+        //     await _messageRepository.AddMessageAsync(message);
+        // }
     }
 }

@@ -35,8 +35,8 @@ namespace testChat
 
             services.AddScoped<IRepositoryContextFactory, RepositoryContextFactory>();
 
-            services.AddScoped<IGroupsRepository>(provider =>
-               new GroupsRepository(Configuration.GetConnectionString("DefaultConnection"),
+            services.AddScoped<IRoomsRepository>(provider =>
+               new RoomsRepository(Configuration.GetConnectionString("DefaultConnection"),
                    provider.GetService<IRepositoryContextFactory>()));
             services.AddScoped<IMessagesRepository>(provider =>
                new MessagesRepository(Configuration.GetConnectionString("DefaultConnection"),

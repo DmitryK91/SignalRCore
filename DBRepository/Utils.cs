@@ -10,7 +10,7 @@ namespace DBRepository
             return new Result
             {
                 State = State,
-                Error = ex.Message
+                Error = ex == null ? string.Empty : ex.Message
             };
         }
     }

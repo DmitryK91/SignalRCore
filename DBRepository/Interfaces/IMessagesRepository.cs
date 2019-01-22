@@ -6,7 +6,7 @@ using Models;
 namespace DBRepository.Interfaces
 {
     public interface IMessagesRepository {
-        Task<List<Message>> GetMessages(Guid GroupID);
+        Task<List<ViewMessage>> GetMessages(Guid GroupID);
         Task<Result> AddMessageAsync (Message message);
     }
 }
