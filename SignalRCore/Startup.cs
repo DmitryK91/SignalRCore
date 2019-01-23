@@ -40,7 +40,8 @@ namespace testChat
                    provider.GetService<IRepositoryContextFactory>()));
             services.AddScoped<IMessagesRepository>(provider =>
                new MessagesRepository(Configuration.GetConnectionString("DefaultConnection"),
-                   provider.GetService<IRepositoryContextFactory>()));
+                   provider.GetService<IRepositoryContextFactory>(),
+                   Configuration.GetValue("Files", "./Files")));
             services.AddScoped<IUsersRepository>(provider =>
                new UsersRepository(Configuration.GetConnectionString("DefaultConnection"),
                    provider.GetService<IRepositoryContextFactory>()));

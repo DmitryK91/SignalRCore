@@ -10,14 +10,14 @@ class MessageList extends Component {
   componentDidMount() {
     this.props.connection.on(
       "ReceiveMessage",
-      (user, message, roomId, messageId, postedAt) => {
+      (user, message, roomId, postedAt, files) => {
         this.props.onReceiveMessage(
           user,
           message,
           roomId,
-          messageId,
           postedAt,
-          this.props.currentRoom.id
+          this.props.currentRoom.id,
+          files
         );
       }
     );
@@ -55,6 +55,7 @@ class MessageList extends Component {
                 userName={message.userName}
                 contents={message.content}
                 postedAt={message.postedAt}
+                files={message.files}
               />
             );
           })
@@ -80,18 +81,18 @@ const mapDispatchToProps = dispatch => {
       user,
       message,
       roomId,
-      messageId,
       postedAt,
-      currentRoomId
+      currentRoomId,
+      files
     ) =>
       dispatch(
         receiveMessage(
           user,
           message,
           roomId,
-          messageId,
           postedAt,
-          currentRoomId
+          currentRoomId,
+          files
         )
       )
   };

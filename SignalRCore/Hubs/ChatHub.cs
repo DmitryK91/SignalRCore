@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using DBRepository.Interfaces;
 using Models;
+using Microsoft.AspNetCore.Http;
 
 namespace testChat.Hubs
 {
@@ -20,23 +21,15 @@ namespace testChat.Hubs
             _usersManager = usersManager;
         }
 
-        public async Task SendMessage(Guid roomId, Guid userId, string message)
+        public async Task SendMessage(Guid roomId, Guid userId, string message, IFormFileCollection uploads)
         {
-            Message m = new Message()
-            {
-                ID = Guid.NewGuid(),
-                Content = message,
-                UserID = userId,
-                PostedAt = DateTime.Now,
-                GroupID = roomId
-            };
-
-            var res = await _messageManager.AddMessageAsync(m);
+            var res = await _messageManager.AddMessageAsync(roomId, userId, message, uploads);
             if(!res.State) return;
 
-            var userName = await _usersManager.GetNameByIDAsync(m.UserID);
+            var userName = await _usersManager.GetNameByIDAsync(userId);
+            var m = (Message)res.Data;
 
-            await Clients.All.SendAsync("ReceiveMessage", userName, m.Content, m.GroupID, m.ID, m.PostedAt);
+            await Clients.All.SendAsync("ReceiveMessage", userName, message, roomId, m.PostedAt, m.Files);
         }
 
         public async Task AddChatRoom(string roomName)

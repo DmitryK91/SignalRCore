@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DBRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Models;
 
 namespace DBRepository.Repositories

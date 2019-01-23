@@ -5,11 +5,13 @@ class AddMessageForm extends Component {
     super();
 
     this.state = {
-      newMessage: ""
+      newMessage: "",
+      files: null
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.filesOnChange = this.filesOnChange.bind(this);
   }
 
   handleChange(e) {
@@ -25,18 +27,29 @@ class AddMessageForm extends Component {
         "SendMessage",
         this.props.roomId,
         this.props.user.id,
-        this.state.newMessage
+        this.state.newMessage,
+        this.state.files
       )
       .catch(err => console.error(err.toString()));
 
     this.setState({
-      newMessage: ""
+      newMessage: "",
+      files: null
+    });
+  }
+
+  filesOnChange(sender) {
+    this.setState({
+      files: sender.target.files
     });
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit} className="add-message-form">
+        <input type="file" onChange={this.filesOnChange} />
+        <br />
+
         <input
           onChange={this.handleChange}
           value={this.state.newMessage}

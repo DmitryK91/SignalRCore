@@ -22,9 +22,9 @@ export function receiveMessage(
   userName = "",
   message = "",
   roomId = null,
-  id = null,
   postedAt = null,
-  currentRoomId = null
+  currentRoomId = null,
+  files = null
 ) {
   const filteredMessage = message
     .replace(/&/g, "&amp;")
@@ -35,10 +35,10 @@ export function receiveMessage(
     payload: {
       message: {
         userName,
-        id,
         roomId,
         postedAt,
-        content: filteredMessage
+        content: filteredMessage,
+        files
       },
       currentRoomId
     }

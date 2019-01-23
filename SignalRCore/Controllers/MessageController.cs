@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DBRepository.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 
@@ -31,8 +32,9 @@ namespace testChat.Controllers
         }
 
         // [HttpPost]
-        // public async void Post([FromBody] Message message)
+        // public async void Post([FromBody] IFormFileCollection uploads)
         // {
+        //     uploads.
         //     await _messageRepository.AddMessageAsync(message);
         // }
     }

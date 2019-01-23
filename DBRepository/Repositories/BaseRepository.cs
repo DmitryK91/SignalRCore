@@ -1,11 +1,13 @@
 using DBRepository.Interfaces;
+using Microsoft.Extensions.Configuration;
 
 namespace DBRepository.Repositories
 {
     public abstract class BaseRepository
     {
-        protected string ConnectionString { get; }
-        protected IRepositoryContextFactory ContextFactory { get; }
+        protected readonly string ConnectionString;
+        protected readonly IRepositoryContextFactory ContextFactory;
+
         public BaseRepository(string connectionString, IRepositoryContextFactory contextFactory)
         {
             ConnectionString = connectionString;
