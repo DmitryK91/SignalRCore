@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Row } from "reactstrap";
+import axios from "axios";
 
 class AddMessageForm extends Component {
   constructor() {
@@ -6,12 +8,11 @@ class AddMessageForm extends Component {
 
     this.state = {
       newMessage: "",
-      files: null
+      fileLink: []
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.filesOnChange = this.filesOnChange.bind(this);
   }
 
   handleChange(e) {
@@ -22,44 +23,55 @@ class AddMessageForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
     this.props.connection
       .invoke(
         "SendMessage",
         this.props.roomId,
         this.props.user.id,
         this.state.newMessage,
-        this.state.files
+        this.state.fileLink
       )
       .catch(err => console.error(err.toString()));
 
     this.setState({
       newMessage: "",
-      files: null
+      fileLink: []
     });
   }
 
-  filesOnChange(sender) {
-    this.setState({
-      files: sender.target.files
+  handleUploadFile = (event) => {
+    let files = this.state.fileLink;    
+
+    let data = new FormData();
+    data.append('file', event.target.files[0]);
+    axios.post('/api/Message', data).then((response) => {
+      files.append(response.data);
+      this.setState({
+        fileLink: files
+      });
     });
   }
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="add-message-form">
-        <input type="file" onChange={this.filesOnChange} />
-        <br />
+      <div>
+        <Row>
+          <input type="file" onChange={this.handleUploadFile} /> 
+        </Row>
 
-        <input
-          onChange={this.handleChange}
-          value={this.state.newMessage}
-          placeholder="Say something to the room..."
-          type="text"
-        />
-        <button type="submit" onClick={this.handleSubmit}>
-          Submit
-        </button>
-      </form>
+        <Row>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              onChange={this.handleChange}
+              value={this.state.newMessage}
+              placeholder="Say something to the room..."
+              type="text"
+            />
+            <input type="submit" value="Submit" />
+          </form>
+        </Row>
+      </div>
     );
   }
 }

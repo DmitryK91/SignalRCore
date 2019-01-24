@@ -32,7 +32,6 @@ class AddChatRoomForm extends Component {
 
   render() {
     return (
-      <div className="new-room-form">
         <form onSubmit={this.handleSubmit} className="new-room-form">
           <input
             onChange={this.handleChange}
@@ -52,7 +51,6 @@ class AddChatRoomForm extends Component {
             Cancel
           </button>
         </form>
-      </div>
     );
   }
 }

@@ -13,11 +13,12 @@ export const REQUEST_MESSAGES_FAILED = 'REQUEST_MESSAGES_FAILED';
 export const ADD_MESSAGE = 'ADD_MESSAGE';
 export const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
 
-// User Info
-export const SET_USERNAME = 'SET_USERNAME';
+export const UPLOAD_PENDING = 'UPLOAD_PENDING';
+export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
+export const UPLOAD_FAILED = 'UPLOAD_FAILED';
 
+// User Info
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
-export const SHOW_LOGIN_FORM = 'SHOW_LOGIN_FORM'
 export const INPUT_LOGIN = 'INPUT_LOGIN'
 export const LOGOUT = 'LOGOUT'

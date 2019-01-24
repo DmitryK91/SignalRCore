@@ -21,8 +21,8 @@ class ChatRoomList extends Component {
   render() {
     return (
       <div className="rooms-list">
-        <ul>
-          <h4>Rooms Available</h4>
+      <h4>Rooms</h4>
+        <ul>          
             {this.props.rooms.map(room => {
 
               return (

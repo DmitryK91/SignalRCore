@@ -2,7 +2,10 @@ import {
   REQUEST_MESSAGES_PENDING,
   REQUEST_MESSAGES_SUCCESS,
   REQUEST_MESSAGES_FAILED,
-  RECEIVE_MESSAGE
+  RECEIVE_MESSAGE,
+  UPLOAD_PENDING,
+  UPLOAD_SUCCESS,
+  UPLOAD_FAILED,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -30,6 +33,17 @@ export const requestMessages = (state = initialState, action = {}) => {
       } else {
         return state;
       }
+
+    case UPLOAD_PENDING:
+      return Object.assign({}, state, { isPending: true });
+    case UPLOAD_SUCCESS:
+      return Object.assign({}, state, {
+        messages: action.payload,
+        isPending: false
+      });
+    case UPLOAD_FAILED:
+      return Object.assign({}, state, { error: action.payload });
+
     default:
       return state;
   }

@@ -38,7 +38,7 @@ namespace DBRepository.Repositories
             }
         }
 
-        public async Task<Result> AddMessageAsync(Guid roomId, Guid userId, string message, IFormFileCollection uploads = null)
+        public async Task<Result> AddMessageAsync(Guid roomId, Guid userId, string message, IFormCollection uploads = null)
         {
             try
             {
@@ -64,20 +64,24 @@ namespace DBRepository.Repositories
             catch(Exception ex){ return Utils.GetResult(ex: ex); }
         }
 
-        private async Task<List<Models.File>> SaveFile(IFormFileCollection uploads, Guid messageID)
+        private async Task<List<Models.File>> SaveFile(IFormCollection uploads, Guid messageID)
         {
             var result = new List<Models.File>();
 
-            foreach(var uploadedFile in uploads)
+            var messagePath = Path.Combine(FilePath, messageID.ToString());
+
+            Directory.CreateDirectory(messagePath);
+
+            foreach(var upload in uploads.Files)
             {
-                string path = Path.Combine(FilePath, uploadedFile.FileName);
+                string path = Path.Combine(messagePath, upload.FileName);
 
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
-                    await uploadedFile.CopyToAsync(fileStream);
+                    await upload.CopyToAsync(fileStream);
                 }
 
-                result.Add(new Models.File { Name = uploadedFile.FileName });
+                result.Add(new Models.File { Name = upload.FileName });
             }
 
             return result;

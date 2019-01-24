@@ -2,7 +2,6 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  SHOW_LOGIN_FORM,
   INPUT_LOGIN
 } from '../actions/actionTypes';
 import utils from "../../utils";
@@ -10,8 +9,7 @@ import utils from "../../utils";
 const initialState = {
     isLogged: utils.isLogged(),
     login: utils.getLogin(),
-    error: '',
-    isLoginFormShowed: false
+    error: ''
 };
 
 export const userInfo = (state = initialState, action) => {
@@ -26,7 +24,6 @@ export const userInfo = (state = initialState, action) => {
         return {
             ...state,
             isLogged: true,
-            isLoginFormShowed: false,
             login: action.payload,
             error: ''
         };
@@ -34,11 +31,6 @@ export const userInfo = (state = initialState, action) => {
     case LOGIN_ERROR:
         return { ...state,
             error: action.payload
-        };
-
-    case SHOW_LOGIN_FORM:
-        return { ...state,
-            isLoginFormShowed: action.payload
         };
 
     case INPUT_LOGIN:

@@ -11,7 +11,7 @@ import MessageList from "./components/Message/MessageList";
 import NoRoomSelected from "./components/Chat/NoRoomSelected";
 import Layout from "./components/Layout";
 import { BrowserRouter as Router } from 'react-router-dom';
-
+import { Col, Row } from "reactstrap";
 import "./App.css";
 
 class App extends Component {
@@ -31,23 +31,30 @@ class App extends Component {
   }
 
   render() {
-    const { currentRoom, user } = this.props;
+    const { currentRoom, user, isLogged } = this.props;
 
     return (
       <Router>
           <Layout>
-            <div>
-              <AddChatRoomForm connection={this.connection} />
-              <ChatRoomList openRoom={() => 1} connection={this.connection} />
-              {
-                currentRoom ? (
-                <div>
-                  <MessageList roomId={currentRoom.id} connection={this.connection} />
-                  <AddMessageForm roomId={currentRoom.id} user={user} connection={this.connection} />
-                </div>
-                ) : (<NoRoomSelected />)
-              }
-            </div>
+
+            <Row>
+              <Col md="3">
+                <AddChatRoomForm connection={this.connection} />
+                <ChatRoomList openRoom={() => 1} connection={this.connection} />
+              </Col>
+
+              <Col>
+                {
+                  currentRoom ? (
+                  <div>
+                    <MessageList roomId={currentRoom.id} connection={this.connection} />
+                    <AddMessageForm roomId={currentRoom.id} user={user} connection={this.connection} />
+                  </div>
+                  ) : (<NoRoomSelected />)
+                }
+              </Col>
+            </Row>
+            
           </Layout>
       </Router>
     );
@@ -57,31 +64,14 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     user: state.userInfo.login,
+    isLogged: state.userInfo.isLogged,
     currentRoom: state.requestRooms.currentRoom
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin: name => dispatch(Login(name)),
-    onReceiveMessage: (
-      user,
-      message,
-      roomId,
-      messageId,
-      postedAt,
-      currentRoomId
-    ) =>
-      dispatch(
-        receiveMessage(
-          user,
-          message,
-          roomId,
-          messageId,
-          postedAt,
-          currentRoomId
-        )
-      )
+    onLogin: name => dispatch(Login(name))
   };
 };
 
