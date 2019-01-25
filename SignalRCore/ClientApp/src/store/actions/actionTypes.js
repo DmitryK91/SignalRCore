@@ -20,5 +20,5 @@ export const UPLOAD_FAILED = 'UPLOAD_FAILED';
 // User Info
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_ERROR = 'LOGIN_ERROR'
-export const INPUT_LOGIN = 'INPUT_LOGIN'
+export const LOGIN_PENDING = 'LOGIN_PENDING'
 export const LOGOUT = 'LOGOUT'

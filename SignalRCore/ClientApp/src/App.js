@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Login } from "./store/actions/userActions";
-import { receiveMessage } from "./store/actions/messageActions";
 import { HubConnectionBuilder } from "@aspnet/signalr";
 
 import AddChatRoomForm from "./components/Chat/AddChatRoomForm";
@@ -54,7 +53,7 @@ class App extends Component {
                 }
               </Col>
             </Row>
-            
+
           </Layout>
       </Router>
     );

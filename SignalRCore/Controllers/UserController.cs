@@ -25,20 +25,6 @@ namespace testChat.Controllers
                 return NotFound ();
             }
 
-            var u = await _userRepository.GetUserAsync (
-                userName, Request.Headers["User-Agent"].ToString ());
-
-            return Ok (u);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Post ([FromBody] string userName)
-        {
-            if (userName == string.Empty)
-            {
-                return NotFound ();
-            }
-
             var u = await _userRepository.GetUserAsync (userName, Request.Headers["User-Agent"].ToString ());
 
             if (u != null)

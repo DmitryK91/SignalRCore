@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { uploadFiles } from "../../store/actions/messageActions";
 import { Row } from "reactstrap";
-import axios from "axios";
 
 class AddMessageForm extends Component {
   constructor() {
@@ -8,7 +9,7 @@ class AddMessageForm extends Component {
 
     this.state = {
       newMessage: "",
-      fileLink: []
+      file: null
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,32 +25,29 @@ class AddMessageForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
 
+    this.props.uploadFiles(this.state.file, this.props.user.id);
+
     this.props.connection
       .invoke(
         "SendMessage",
         this.props.roomId,
         this.props.user.id,
-        this.state.newMessage,
-        this.state.fileLink
+        this.state.newMessage + this.props.link
       )
       .catch(err => console.error(err.toString()));
 
     this.setState({
       newMessage: "",
-      fileLink: []
+      file: null
     });
   }
 
   handleUploadFile = (event) => {
-    let files = this.state.fileLink;    
-
     let data = new FormData();
     data.append('file', event.target.files[0]);
-    axios.post('/api/Message', data).then((response) => {
-      files.append(response.data);
-      this.setState({
-        fileLink: files
-      });
+
+    this.setState({
+      file: data
     });
   }
 
@@ -57,7 +55,7 @@ class AddMessageForm extends Component {
     return (
       <div>
         <Row>
-          <input type="file" onChange={this.handleUploadFile} /> 
+          <input type="file" onChange={this.handleUploadFile} />
         </Row>
 
         <Row>
@@ -76,4 +74,20 @@ class AddMessageForm extends Component {
   }
 }
 
-export default AddMessageForm;
+const mapStateToProps = state => {
+  return {
+    link: state.requestMessages.link
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    uploadFiles: (data, userID) =>
+      dispatch(uploadFiles(data, userID))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddMessageForm);

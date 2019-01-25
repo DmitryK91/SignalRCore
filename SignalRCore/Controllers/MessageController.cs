@@ -32,10 +32,16 @@ namespace testChat.Controllers
             return Ok(messagesForRoom);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post([FromForm] IFormFile file)
+        [HttpPost("{userID}")]
+        public async Task<IActionResult> Post([FromForm] IFormFile file, Guid userID)
         {
-            return Ok(file.FileName);
+            var res = await _messageRepository.AddFileAsync(file, userID);
+
+            if(!res.State) return BadRequest(res.Error);
+
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, res.Data.ToString());
+
+            return Ok(path);
         }
     }
 }

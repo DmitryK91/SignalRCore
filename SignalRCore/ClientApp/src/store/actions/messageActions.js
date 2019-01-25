@@ -1,4 +1,4 @@
-import { getData, postData } from "../../api/api";
+import axios from "axios";
 import {
   REQUEST_MESSAGES_PENDING,
   REQUEST_MESSAGES_SUCCESS,
@@ -14,22 +14,24 @@ const baseUrl = "/api/Message";
 export const requestMessages = (roomId = "") => dispatch => {
   const url = roomId ? `${baseUrl}/${roomId}` : baseUrl;
   dispatch({ type: REQUEST_MESSAGES_PENDING });
-  getData(url)
-    .then(data => dispatch({ type: REQUEST_MESSAGES_SUCCESS, payload: data }))
+
+  axios.get(url)
+    .then((response) => dispatch({ type: REQUEST_MESSAGES_SUCCESS, payload: response.data }))
     .catch(error =>
       dispatch({ type: REQUEST_MESSAGES_FAILED, payload: error })
     );
-};
+}
 
-export const uploadFiles = (files, roomId) => dispatch => {
-  const url = `${baseUrl}/${roomId}`;
+export const uploadFiles = (data, userID) => dispatch => {
+  const url = `${baseUrl}/${userID}`;
   dispatch({ type: UPLOAD_PENDING });
-  postData(url, files, "multipart/form-data")
-    .then(data => dispatch({ type: UPLOAD_SUCCESS, payload: data }))
+
+  axios.post(url, data)
+    .then((response) => dispatch({ type: UPLOAD_SUCCESS, payload: response.data }))
     .catch(error =>
       dispatch({ type: UPLOAD_FAILED, payload: error })
     );
-};
+}
 
 export function receiveMessage(
   userName = "",
@@ -37,12 +39,13 @@ export function receiveMessage(
   roomId = null,
   postedAt = null,
   currentRoomId = null,
-  files = null
+  link = null
 ) {
-  const filteredMessage = message
+  var filteredMessage = message
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+
   return {
     type: RECEIVE_MESSAGE,
     payload: {
@@ -51,7 +54,7 @@ export function receiveMessage(
         roomId,
         postedAt,
         content: filteredMessage,
-        files
+        link
       },
       currentRoomId
     }

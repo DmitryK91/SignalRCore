@@ -38,7 +38,7 @@ namespace DBRepository.Repositories
             }
         }
 
-        public async Task<Result> AddMessageAsync(Guid roomId, Guid userId, string message, IFormCollection uploads = null)
+        public async Task<Result> AddMessageAsync(Guid roomId, Guid userId, string message)
         {
             try
             {
@@ -53,9 +53,6 @@ namespace DBRepository.Repositories
                     });
                     m.State = EntityState.Added;
 
-                    if (uploads != null)
-                        m.Entity.Files = await SaveFile(uploads, m.Entity.ID);
-
                     var result = await context.SaveChangesAsync();
 
                     return Utils.GetResult(result > 0, data: m.Entity);
@@ -64,27 +61,24 @@ namespace DBRepository.Repositories
             catch(Exception ex){ return Utils.GetResult(ex: ex); }
         }
 
-        private async Task<List<Models.File>> SaveFile(IFormCollection uploads, Guid messageID)
+        public async Task<Result> AddFileAsync(IFormFile file, Guid userID)
         {
-            var result = new List<Models.File>();
-
-            var messagePath = Path.Combine(FilePath, messageID.ToString());
-
-            Directory.CreateDirectory(messagePath);
-
-            foreach(var upload in uploads.Files)
+            try
             {
-                string path = Path.Combine(messagePath, upload.FileName);
+                var userPath = Path.Combine(FilePath, userID.ToString());
 
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                if(!Directory.Exists(userPath))
+                    Directory.CreateDirectory(userPath);
+
+                var path = Path.Combine(userPath, file.FileName);
+                using (System.IO.Stream stream = new FileStream(path, FileMode.Create))
                 {
-                    await upload.CopyToAsync(fileStream);
+                    await file.CopyToAsync(stream);
                 }
 
-                result.Add(new Models.File { Name = upload.FileName });
+                return Utils.GetResult(System.IO.File.Exists(path), data: path);
             }
-
-            return result;
+            catch(Exception ex){ return Utils.GetResult(ex: ex); }
         }
     }
 }

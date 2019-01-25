@@ -22,7 +22,7 @@ namespace testChat.Hubs
             _usersManager = usersManager;
         }
 
-        public async Task SendMessage(Guid roomId, Guid userId, string message, List<string> files)
+        public async Task SendMessage(Guid roomId, Guid userId, string message)
         {
             var res = await _messageManager.AddMessageAsync(roomId, userId, message);
             if(!res.State) return;
@@ -30,7 +30,7 @@ namespace testChat.Hubs
             var userName = await _usersManager.GetNameByIDAsync(userId);
             var m = (Message)res.Data;
 
-            await Clients.All.SendAsync("ReceiveMessage", userName, message, roomId, m.PostedAt, files);
+            await Clients.All.SendAsync("ReceiveMessage", userName, message, roomId, m.PostedAt);
         }
 
         public async Task AddChatRoom(string roomName)

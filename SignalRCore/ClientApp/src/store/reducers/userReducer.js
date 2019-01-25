@@ -2,7 +2,7 @@ import {
   LOGOUT,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
-  INPUT_LOGIN
+  LOGIN_PENDING
 } from '../actions/actionTypes';
 import utils from "../../utils";
 
@@ -25,6 +25,7 @@ export const userInfo = (state = initialState, action) => {
             ...state,
             isLogged: true,
             login: action.payload,
+            isPending: false,
             error: ''
         };
 
@@ -33,9 +34,9 @@ export const userInfo = (state = initialState, action) => {
             error: action.payload
         };
 
-    case INPUT_LOGIN:
+    case LOGIN_PENDING:
         return { ...state,
-            login: action.payload
+            isPending: true
         };
 
     default:

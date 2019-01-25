@@ -10,20 +10,28 @@ import {
 
 const initialState = {
   messages: [],
-  currentRoomId: null
+  currentRoomId: null,
+  link: ""
 };
 
 export const requestMessages = (state = initialState, action = {}) => {
   switch (action.type) {
     case REQUEST_MESSAGES_PENDING:
-      return Object.assign({}, state, { isPending: true });
+      return { ...state,
+        isPending: true
+      };
+
     case REQUEST_MESSAGES_SUCCESS:
-      return Object.assign({}, state, {
+      return { ...state,
         messages: action.payload,
         isPending: false
-      });
+      };
+
     case REQUEST_MESSAGES_FAILED:
-      return Object.assign({}, state, { error: action.payload });
+      return { ...state,
+        error: action.payload
+      };
+
     case RECEIVE_MESSAGE:
       if (action.payload.currentRoomId === action.payload.message.roomId) {
         return {
@@ -35,14 +43,20 @@ export const requestMessages = (state = initialState, action = {}) => {
       }
 
     case UPLOAD_PENDING:
-      return Object.assign({}, state, { isPending: true });
+      return { ...state,
+        isPending: true
+      };
+
     case UPLOAD_SUCCESS:
-      return Object.assign({}, state, {
-        messages: action.payload,
+      return { ...state,
+        link: action.payload,
         isPending: false
-      });
+      };
+
     case UPLOAD_FAILED:
-      return Object.assign({}, state, { error: action.payload });
+      return { ...state,
+        error: action.payload
+      };
 
     default:
       return state;

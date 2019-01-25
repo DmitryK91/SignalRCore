@@ -1,50 +1,27 @@
+import axios from "axios";
 import {
   LOGIN_ERROR,
-  LOGIN_SUCCESS
+  LOGIN_SUCCESS,
+  LOGIN_PENDING
 } from '../actions/actionTypes';
-import utils from "../../utils";
 
-export function Login(userName) {
+const baseUrl = "/api/user";
 
-    return (dispatch) => {
-        if (userName) {
-            var data = userName;
+export const Login = (userName) => (dispatch) => {
 
-            fetch("/api/user", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json; charset=utf-8'
-                },
-                body: JSON.stringify(data)
-            }).then((response) => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    dispatch({
-                        type: LOGIN_ERROR,
-                        payload: 'Ошибка авторизации'
-                    });
-                    throw new Error('Ошибка авторизации');
-                }
-            }).then((data) => {
-                utils.saveAuth(data.username);
-                dispatch({
-                    type: LOGIN_SUCCESS,
-                    payload: data
-                });
-            }).catch((ex) => {
-                alert(ex);                
-                dispatch({
-                    type: LOGIN_ERROR,
-                    payload: ex
-                });                
-            });
-        } else {
-            alert('Необходимо ввести имя пользователя');
-            dispatch({
-                type: LOGIN_ERROR,
-                payload: 'Необходимо ввести имя пользователя'
-            });
-        }
-    };
+    if (userName) {
+        dispatch({ type: LOGIN_PENDING });
+
+        axios.get(`${baseUrl}/${userName}`, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then((response) => dispatch({ type: LOGIN_SUCCESS, payload: response.data }))
+            .catch(error =>
+                dispatch({ type: LOGIN_ERROR, payload: error })
+            );
+    }
+    else{
+        Login(window.prompt('Your name:', 'John'))
+    }
 }

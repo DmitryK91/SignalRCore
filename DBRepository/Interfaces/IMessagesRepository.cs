@@ -9,6 +9,7 @@ namespace DBRepository.Interfaces
     public interface IMessagesRepository
     {
         Task<List<ViewMessage>> GetMessages(Guid GroupID);
-        Task<Result> AddMessageAsync (Guid roomId, Guid userId, string message, IFormCollection uploads = null);
+        Task<Result> AddMessageAsync (Guid roomId, Guid userId, string message);
+        Task<Result> AddFileAsync(IFormFile file, Guid userID);
     }
 }
