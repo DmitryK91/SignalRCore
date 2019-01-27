@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using DBRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Models;
 
 namespace DBRepository.Repositories
@@ -22,6 +21,7 @@ namespace DBRepository.Repositories
                 return await context.Rooms.ToListAsync();
             }
         }
+
         public async Task<Result> AddAsync(Room room)
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
@@ -33,7 +33,7 @@ namespace DBRepository.Repositories
 
                     return Utils.GetResult(result > 0);
                 }
-                catch(Exception ex){ return Utils.GetResult(ex: ex); }
+                catch (Exception ex) { return Utils.GetResult(ex: ex); }
             }
         }
 

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Models {
-    public class Message {
-        [Key, DatabaseGenerated (DatabaseGeneratedOption.Identity)]
+namespace Models
+{
+    public class Message
+    {
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid ID { get; set; }
 
-        [DataType (DataType.DateTime)]
+        [DataType(DataType.DateTime)]
         public DateTime PostedAt { get; set; }
         [Required]
         public Guid UserID { get; set; }
@@ -25,16 +27,18 @@ namespace Models {
         }
     }
 
-    public class ViewMessage{
-        [DataType (DataType.DateTime)]
+    public class ViewMessage
+    {
+        public Guid ID { get; set; }
+        [DataType(DataType.DateTime)]
         public DateTime PostedAt { get; set; }
         public string Content { get; set; }
         public string UserName { get; set; }
-        public List<string> Files { get; set; }
+        public List<FileView> Files { get; set; }
 
         public ViewMessage()
         {
-            Files = new List<string>();
+            Files = new List<FileView>();
         }
     }
 }

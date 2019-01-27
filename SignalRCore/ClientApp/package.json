@@ -20,7 +20,8 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "rimraf": "^2.6.3"
+    "rimraf": "^2.6.3",
+    "history": "^4.7.2"
   },
   "devDependencies": {
     "ajv": "^6.7.0",

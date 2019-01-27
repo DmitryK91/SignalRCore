@@ -11,7 +11,7 @@ namespace Models
         public Guid ID { get; set; }
         [Required]
         public string Name { get; set; }
-        public List<Message> Messages{ get; set; }
+        public List<Message> Messages { get; set; }
 
         public Room()
         {

@@ -1,31 +1,39 @@
-export default {
+import { createBrowserHistory } from 'history';
 
-  getDateString: dateVal => {
+export const history = createBrowserHistory();
+
+export const getDateString = dateVal => {
     let date = new Date(dateVal);
     return date.toLocaleDateString() + " at " +
-      date.toLocaleTimeString();
-  },
+        date.toLocaleTimeString();
+}
 
-  saveAuth: (userName) => {
+export const saveAuth = (userName, userID) => {
     sessionStorage.setItem("userName", userName);
-  },
+    sessionStorage.setItem("userID", userID);
+}
 
-  clearAuth: () => {
+export const clearAuth = () => {
     sessionStorage.removeItem("userName");
-  },
+    sessionStorage.removeItem("userID");
+}
 
-  getLogin: () => {
+export const getLogin = () => {
     let login = sessionStorage.getItem("userName");
     return login;
-  },
+}
 
-  isLogged: () => {
-    let item = sessionStorage.getItem("userName");
-    if (item) {
-      return true;
+export const getID = () => {
+    let id = sessionStorage.getItem("userID");
+    return id;
+}
+
+export const isLogged = () => {
+    let name = sessionStorage.getItem("userName");
+    let id = sessionStorage.getItem("userID");
+    if (name && id) {
+        return true;
     } else {
-      return false;
+        return false;
     }
-  },
-
 }

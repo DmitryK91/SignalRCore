@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DBRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Models;
 
 namespace DBRepository.Repositories
@@ -26,11 +24,11 @@ namespace DBRepository.Repositories
 
                     return Utils.GetResult(result > 0);
                 }
-                catch(Exception ex){ return Utils.GetResult(ex: ex); }
+                catch (Exception ex) { return Utils.GetResult(ex: ex); }
             }
         }
 
-        public async Task<String> GetNameByIDAsync(Guid ID)
+        public async Task<string> GetNameByIDAsync(Guid ID)
         {
             using (var context = ContextFactory.CreateDbContext(ConnectionString))
             {

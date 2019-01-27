@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using DBRepository.Interfaces;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 
 namespace testChat.Controllers
 {
@@ -14,20 +13,20 @@ namespace testChat.Controllers
     {
         private readonly IMessagesRepository _messageRepository;
 
-        public MessageController(IMessagesRepository messageRepository)
+        public MessageController(IMessagesRepository messageRepository, IHostingEnvironment appEnvironment)
         {
             _messageRepository = messageRepository;
         }
 
-        [HttpGet("{ChatID}")]
-        public async Task<IActionResult> Get(Guid ChatID)
+        [HttpGet("{roomID}")]
+        public async Task<IActionResult> Get(Guid roomID)
         {
-            if (ChatID == Guid.Empty)
+            if (roomID == Guid.Empty)
             {
                 return NotFound();
             }
 
-            var messagesForRoom = await _messageRepository.GetMessages(ChatID);
+            var messagesForRoom = await _messageRepository.GetMessages(roomID);
 
             return Ok(messagesForRoom);
         }
@@ -37,11 +36,20 @@ namespace testChat.Controllers
         {
             var res = await _messageRepository.AddFileAsync(file, userID);
 
-            if(!res.State) return BadRequest(res.Error);
+            if (!res.State) return BadRequest(res.Error);
+            
+            return Ok(res.Data.ToString());
+        }
+        
+        [HttpGet("[action]/{fileID}")]
+        public async Task<IActionResult> DownloadFile(Guid fileID)
+        {
+            var file = await _messageRepository.GetFileAsync(fileID);
 
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, res.Data.ToString());
+            string path = Path.Combine(Environment.CurrentDirectory, file.Path);
+            byte[] mas = System.IO.File.ReadAllBytes(path);
 
-            return Ok(path);
+            return File(mas, "application/octet-stream", file.Name);
         }
     }
 }
