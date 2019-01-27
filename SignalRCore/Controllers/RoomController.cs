@@ -20,7 +20,7 @@ namespace testChat.Controllers
         {
             var rooms = await _roomsManager.GetRoomsAsync();
 
-            return Ok(rooms);
+            return rooms.Count > 0 ? (IActionResult)Ok(rooms) : NotFound();
         }
 
         [HttpPost]

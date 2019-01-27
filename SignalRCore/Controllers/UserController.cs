@@ -19,9 +19,7 @@ namespace testChat.Controllers
         public async Task<IActionResult> Get(string userName)
         {
             if (userName == string.Empty || userName == "null")
-            {
-                return NotFound();
-            }
+                return BadRequest("userName is Empty");
 
             var u = await _userRepository.GetUserAsync(userName, Request.Headers["User-Agent"].ToString());
 

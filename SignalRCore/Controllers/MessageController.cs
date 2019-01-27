@@ -28,7 +28,7 @@ namespace testChat.Controllers
 
             var messagesForRoom = await _messageRepository.GetMessages(roomID);
 
-            return Ok(messagesForRoom);
+            return messagesForRoom.Count > 0 ? (IActionResult)Ok(messagesForRoom) : NotFound();
         }
 
         [HttpPost("{userID}")]
@@ -44,12 +44,20 @@ namespace testChat.Controllers
         [HttpGet("[action]/{fileID}")]
         public async Task<IActionResult> DownloadFile(Guid fileID)
         {
-            var file = await _messageRepository.GetFileAsync(fileID);
+            try
+            {
+                var file = await _messageRepository.GetFileAsync(fileID);
+                if (file == null) throw new FileNotFoundException();
 
-            string path = Path.Combine(Environment.CurrentDirectory, file.Path);
-            byte[] mas = System.IO.File.ReadAllBytes(path);
+                string path = Path.Combine(Environment.CurrentDirectory, file.Path);
+                if (!System.IO.File.Exists(path)) throw new FileNotFoundException();
 
-            return File(mas, "application/octet-stream", file.Name);
+                byte[] mas = System.IO.File.ReadAllBytes(path);
+
+                return File(mas, "application/octet-stream", file.Name);
+            }
+            catch (FileNotFoundException) { return NotFound(); }
+            catch (Exception) { return BadRequest(); }
         }
     }
 }
