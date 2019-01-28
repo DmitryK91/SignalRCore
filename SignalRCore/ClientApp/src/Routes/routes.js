@@ -1,9 +1,9 @@
 ﻿import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Home from '../Components/Home';
+import Home from '../components/Home';
 import LoginPage from '../User/Components/LoginPage';
-import { PrivateRoute } from '../Components/PrivateRoute';
+import { PrivateRoute } from '../components/PrivateRoute';
 
 export default class Routing extends Component {
     render() {

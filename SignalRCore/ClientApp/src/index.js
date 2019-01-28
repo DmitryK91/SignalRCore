@@ -2,8 +2,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import configureStore from './Store/configureStore';
-import App from './Components/App';
+import configureStore from './store/configureStore';
+import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 
 const initialState = window.initialReduxState;
