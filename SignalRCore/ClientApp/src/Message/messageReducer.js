@@ -42,7 +42,8 @@ export const requestMessages = (state = initialState, action = {}) => {
             if (action.payload.currentRoomId === action.payload.message.roomId) {
                 return {
                     ...state,
-                    messages: [...state.messages, action.payload.message]
+                    messages: [...state.messages, action.payload.message],
+                    fileID: ""
                 };
             } else {
                 return state;
