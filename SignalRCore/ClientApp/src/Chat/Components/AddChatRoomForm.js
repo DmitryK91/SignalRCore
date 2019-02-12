@@ -37,18 +37,12 @@ class AddChatRoomForm extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit} className="form-group">
-                <Row>
-                    <Col>
-                        <input onChange={this.handleChange} value={this.state.roomName}
-                            placeholder="Create room..." className="form-control"
-                            type="text" required />
-                    </Col>
-                    <Col md="2">
-                        <input type="submit" value="Submit"
-                            className="btn btn-secondary"
-                            disabled={!this.state.formValid} />
-                    </Col>
-                </Row>
+                <input onChange={this.handleChange} value={this.state.roomName}
+                    placeholder="Create room..." className="form-control"
+                    type="text" required />
+                <input type="submit" value="Submit"
+                    className="btn btn-secondary"
+                    disabled={!this.state.formValid} />
             </form>
         );
     }

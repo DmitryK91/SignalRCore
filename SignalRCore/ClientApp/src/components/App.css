@@ -32,7 +32,20 @@ body {
 }
 
 .room_list {
-    padding-left: 20px;    
+    padding-left: 20px;
+    height: 75vh;
+    overflow: auto;
+}
+
+.form-group {}
+
+.form-group input[type='text'] {
+    width: 70%;
+    float: left;
+}
+
+.form-group input[type='button'] {
+    width: 20%
 }
 
 .form-signin {
@@ -41,39 +54,39 @@ body {
     margin: 0 auto;
 }
 
-    .form-signin .form-signin-heading,
-    .form-signin .checkbox {
-        margin-bottom: 10px;
-    }
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
 
-    .form-signin .checkbox {
-        font-weight: normal;
-    }
+.form-signin .checkbox {
+    font-weight: normal;
+}
 
-    .form-signin .form-control {
-        position: relative;
-        height: auto;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-        padding: 10px;
-        font-size: 16px;
-    }
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
 
-        .form-signin .form-control:focus {
-            z-index: 2;
-        }
+.form-signin .form-control:focus {
+    z-index: 2;
+}
 
-    .form-signin input[type="login"] {
-        margin-bottom: -1px;
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-    }
+.form-signin input[type="login"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
 
-    .form-signin input[type="button"] {
-        text-align: center;
-        padding: 10px;
-    }
+.form-signin input[type="button"] {
+    text-align: center;
+    padding: 10px;
+}
 
 .message {
     margin: 15px 0;
@@ -85,10 +98,10 @@ body {
 
 .message-list {
     box-sizing: border-box;
-    padding-left: 6px;
+    padding-left: 10px;
     width: 100%;
-    height: 80vh;
-    overflow: auto;    
+    height: 73vh;
+    overflow: auto;
 }
 
 .file-select {
@@ -100,26 +113,26 @@ body {
     z-index: -1;
 }
 
-    .file-select.file-select-lg + label {
-        padding: 10px 10px;
-        font-size: 18px;
-    }
+.file-select.file-select-lg+label {
+    padding: 10px 10px;
+    font-size: 18px;
+}
 
-    .file-select + label {
-        font-size: 14px;
-        display: inline-block;
-        cursor: pointer;
-        border: 1px solid #ccc;
-        padding: 6px 10px;
-        border-radius: 3px;
-    }
+.file-select+label {
+    font-size: 14px;
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    border-radius: 3px;
+}
 
-    .file-select.file-select-sm + label {
-        font-size: 12px;
-        padding: 5px 10px;
-    }
+.file-select.file-select-sm+label {
+    font-size: 12px;
+    padding: 5px 10px;
+}
 
-    .file-select:focus + label,
-    .file-select + label:hover {
-        background: #ccc;
-    }
+.file-select:focus+label,
+.file-select+label:hover {
+    background: #ccc;
+}

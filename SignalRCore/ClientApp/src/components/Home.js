@@ -13,7 +13,7 @@ import AddMessageForm from "../Message/Components/AddMessageForm";
 import MessageList from "../Message/Components/MessageList";
 /////////////////////////////////////////////////////////////////
 
-import { Col, Row } from "reactstrap";
+import { Col, Row, Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from "reactstrap";
 import "./App.css";
 
 class Home extends Component {
@@ -21,13 +21,22 @@ class Home extends Component {
     constructor() {
         super();
 
+        this.toggle = this.toggle.bind(this);
+
         this.connection = new HubConnectionBuilder()
             .withUrl("/chat")
             .build();
 
         this.state = {
-            isLogged: false
+            isLogged: false,
+            isOpen: false
         };
+    }
+
+    toggle() {
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
     }
 
     componentDidMount() {
@@ -42,8 +51,17 @@ class Home extends Component {
         return (
             <Row>
                 <Col md="3">
-                    <AddChatRoomForm connection={this.connection} />
-                    <ChatRoomList openRoom={() => 1} connection={this.connection} />
+                    <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light >
+                        <Container>
+                            <NavbarToggler onClick={this.toggle} className="mr-2" />
+                            <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={this.state.isOpen} navbar>
+                                <nav className='nav-stacked'>
+                                    <AddChatRoomForm connection={this.connection} />
+                                    <ChatRoomList openRoom={() => 1} connection={this.connection} />
+                                </nav>
+                            </Collapse>
+                        </Container>
+                    </Navbar>
                 </Col>
 
                 <Col>

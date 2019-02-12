@@ -12,7 +12,7 @@ export default class App extends Component {
         return (
             <Router history={history}>
                 <Layout>
-                    <Routing/>                    
+                    <Routing/>
                 </Layout>
             </Router >
         );

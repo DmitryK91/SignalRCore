@@ -21,18 +21,17 @@ class ChatRoomList extends Component {
 
     render() {
         return (
-            <div>
+            <div className='room_list'>
                 {
-                    this.props.rooms.map((room, i) => {                      
-                        return (                            
+                    this.props.rooms.map((room, i) => {
+                        return (
                             <Row key={room.id}>
-                                <a href="#active" className="room_list text-dark"
+                                <a href="#active" className="text-dark"
                                     key={room.id} onClick={() => this.props.onSetRoom(room)}>{room.name}</a>
                             </Row>
-                
-            )
-        })
-    }
+                        )
+                    })
+                }
             </div>
         )
     }

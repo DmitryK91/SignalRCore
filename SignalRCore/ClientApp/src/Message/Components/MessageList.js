@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import {
     receiveMessage,
@@ -41,30 +41,30 @@ class MessageList extends Component {
     }
 
     render() {
-        if (!this.props.roomId) {
-            return (
-                <div className="message-list">
-                    <div className="join-room">Join a room to start chatting.</div>
-                </div>
-            );
-        }
         return (
             <div className="message-list">
                 {
-                    this.props.messages.map((message) => {
-                        return (
-                            <Message
-                                key={message.messageID}
-                                userName={message.userName}
-                                content={message.content}
-                                postedAt={message.postedAt}
-                                files={message.files}
-                                onDownloadFile={this.props.onDownloadFile}
-                            />
-                        );
-                    })
+                    this.props.roomId ? (
+                        <Fragment>
+                            {
+                                this.props.messages.map((message) => {
+                                    return (
+                                        <Message
+                                            key={message.messageID}
+                                            userName={message.userName}
+                                            content={message.content}
+                                            postedAt={message.postedAt}
+                                            files={message.files}
+                                            onDownloadFile={this.props.onDownloadFile}
+                                        />
+                                    );
+                                })
+                            }
+                            <div ref={el => { this.el = el; }} />
+                        </Fragment>
+                    ) :
+                    ( <div className="join-room">Join a room to start chatting.</div> )
                 }
-                <div ref={el => { this.el = el; }} />
             </div>
         );
     }

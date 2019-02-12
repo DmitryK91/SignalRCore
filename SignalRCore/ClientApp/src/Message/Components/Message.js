@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { getDateString } from '../../utils';
 
 const Message = props => {
 
     return (
-        <div>
+        <Fragment>
             <div className="message-username">{props.userName} ~ <b>{getDateString(props.postedAt)}</b></div>
             <div className="well well-sm">
                 <div className="message-text">{props.content}</div>
@@ -23,7 +23,7 @@ const Message = props => {
 
             <br />
 
-        </div>
+        </Fragment>
     )
 }
 

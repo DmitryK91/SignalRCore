@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { uploadFiles } from "../messageActions";
 import { Row, Col } from "reactstrap";
@@ -29,7 +29,7 @@ class AddMessageForm extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         if (this.state.files) {
             await this.props.onUploadFiles(this.state.files, this.props.userInfo.userID);
         }
@@ -83,46 +83,38 @@ class AddMessageForm extends Component {
 
     render() {
         return (
-            <div>
-                <form onSubmit={this.handleSubmit}>
-                    <Row>
-                        <Col md="6">
-                            <input className="form-control"
-                                onChange={this.handleChange}
-                                value={this.state.newMessage}
-                                placeholder="Enter message..."
-                                type="text" />
-                        </Col>
-                        <Col md="2">
-                            <input type="submit" value="Submit"
-                                disabled={!this.state.formValid}
-                                className="btn btn-primary" />
-                        </Col>
-                    </Row>
+            <Fragment>
+                <form onSubmit={this.handleSubmit} className='form-group'>
+                    <input className="form-control"
+                        onChange={this.handleChange}
+                        value={this.state.newMessage}
+                        placeholder="Enter message..."
+                        type="text" />
+                    <input type="submit" value="Submit"
+                        disabled={!this.state.formValid}
+                        className="btn btn-primary" />
                 </form>
 
-                <Row>
-                    <Col>
-                        <input type="file" name="file" id="file" className="file-select" onChange={this.handleUploadFile} required multiple />
-                        <label htmlFor="file">
-                            {
-                                !this.state.fileNames ? (
-                                    <div><i className="fa fa-arrow-circle-o-up"></i> Upload File </div>
-                                ) : (
-                                        this.state.fileNames.map((file) => {
-                                            return (
-                                                <div>
-                                                    <i className="fa fa-file"></i> {file}
-                                                    <input type="button" className="btn btn-danger" value="x" onClick={this.handleRemoveFile} />
-                                                </div>
-                                            )
-                                        })
-                                    )
-                            }
-                        </label>
-                    </Col>
-                </Row>
-            </div>
+                <div>
+                    <input type="file" name="file" id="file" className="file-select" onChange={this.handleUploadFile} required multiple />
+                    <label htmlFor="file">
+                        {
+                            !this.state.fileNames ? (
+                                <div><i className="fa fa-arrow-circle-o-up"></i> Upload File </div>
+                            ) : (
+                                    this.state.fileNames.map((file) => {
+                                        return (
+                                            <div>
+                                                <i className="fa fa-file"></i> {file}
+                                                <input type="button" className="btn btn-danger" value="x" onClick={this.handleRemoveFile} />
+                                            </div>
+                                        )
+                                    })
+                                )
+                        }
+                    </label>
+                </div>
+            </Fragment>
         );
     }
 }
